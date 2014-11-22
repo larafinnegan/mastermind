@@ -1,3 +1,7 @@
+require '.\player'
+require '.\peg'
+require '.\board'
+
 class Game
 
 def initialize
