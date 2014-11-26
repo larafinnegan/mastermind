@@ -4,6 +4,17 @@ def initialize
 	@board = board
 end
 
+def create_code
+code = Array.new(4)
+code.map! {|x| x = rand(6)+1}
+end
+
+def display_board
+for i in (0...(@@guesses*2)).step(2) do
+puts "guess #{((i/2)+1)}: #{board[i]}  feedback: #{board[i+1]}"
+end
+end
+
 
 def invalid_input?(input)
 	input.all? { |x| (1..6).include?(x) } && input.count == 4
@@ -15,10 +26,10 @@ def incorrect_feedback(input)
 end
 
 
-def populate_board(input)
-	input
-	board << [a,b,c,d]
+def win?
+true if feedback.all? {|x| x == 9}
 end
+
 
 
 
