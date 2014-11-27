@@ -1,6 +1,7 @@
 require '.\board'
 
 class Game
+	attr_accessor :board
 
 	@@guesses = 0
 
@@ -9,7 +10,7 @@ class Game
 	end
 
 	def get_guess
-		puts "Please enter a guess: "
+		puts "\nPlease enter a guess: "
 	end
 
 	def validate_guess(guess = gets.chomp)
@@ -33,18 +34,18 @@ class Game
 	end
 	
 	def play
-		@board.create_code
-		while @@guesses < 12 && !@board.win?
+		board.create_code
+		while @@guesses < 12 && !board.win?
 			get_guess
-			@board.populate(format_guess(validate_guess))
-			@board.populate(@board.feedback)
-			@board.display
+			board.populate(format_guess(validate_guess))
+			board.populate(board.feedback)
+			board.display
 			increment_guesses
 		end
-		if @board.win?
-			puts "Congrats, you guessed the code!!" 
+		if board.win?
+			puts "\nCongrats, you guessed the code!!" 
 		else 
-			puts "You lose!  The code is: #{@board.display_code.join(" ")}"
+			puts "\nYou lose!  The code is: #{board.display_code}"
 		end
 	end
 end

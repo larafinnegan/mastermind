@@ -43,7 +43,7 @@ class Board
 	end
 	
 	def display_code
-		@board[0]
+		@board[0].join(" ")
 	end
 
 	def incorrect_feedback(input)
