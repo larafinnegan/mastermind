@@ -38,7 +38,7 @@ class Board
 	def display
 		puts @board[0]
 		for i in (1...@board.length).step(2)
-			puts "guess: #{@board[i]}  feedback: #{@board[i+1]}"
+			puts "guess: #{@board[i].join(" ")}  feedback: #{@board[i+1].join(" ")}"
 		end
 	end
 	
