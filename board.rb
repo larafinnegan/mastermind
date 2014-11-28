@@ -10,18 +10,25 @@ class Board
 		@board << code
 	end
 
+	def code
+		@board[0]
+	end
+
+	def last_guess
+		@board[-1]
+	end
+
 	def feedback
-		codecopy = Array.new(@board[0])
-		guess = @board[-1]
+		codecopy = Array.new(code)
 		frequency = []
 		same = 0
 		present = 0
-		for i in 0...guess.size
-			same +=1 if guess[i] == codecopy[i]
+		for i in 0...last_guess.size
+			same +=1 if last_guess[i] == codecopy[i]
 		end
-		for i in 0...guess.length
-			if codecopy.include?(guess[i])
-				idx = codecopy.index(guess[i])
+		for i in 0...last_guess.size
+			if codecopy.include?(last_guess[i])
+				idx = codecopy.index(last_guess[i])
 				codecopy[idx] = nil
 				present += 1
 			end
