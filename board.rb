@@ -1,13 +1,17 @@
 class Board
 
+	@@colors = {red: "1",
+				orange: "2",
+				yellow: "3",
+				green: "4",
+				blue: "5",
+				purple: "6",
+				white: "8",
+				black: "9"
+				}
+
 	def initialize
 		@board = []
-	end
-
-	def create_code
-		code = Array.new(4)
-		code.map! {|x| x = rand(6)+1}
-		@board << code
 	end
 
 	def code
@@ -16,6 +20,10 @@ class Board
 
 	def last_guess
 		@board[-1]
+	end
+	
+	def map_to_color(input)
+		input.map! {|x| @@colors.key(x)}
 	end
 
 	def feedback
@@ -33,8 +41,8 @@ class Board
 				present += 1
 			end
 		end
-		same.times {frequency << 9}
-		(present-same).times {frequency << 8}
+		same.times {frequency << :black}
+		(present-same).times {frequency << :white}
 		frequency
 	end
 
@@ -53,11 +61,7 @@ class Board
 		@board[0].join(" ")
 	end
 
-	def incorrect_feedback(input)
-		input.all? { |x| (7..9).include?(x) } && input.count == 4
-	end
-
 	def win?
-		true if @board[-2] == @board[0]
+		true if @board[-1] == [:black, :black, :black, :black]
 	end
 end
