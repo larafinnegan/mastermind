@@ -8,5 +8,10 @@ class AI
 			x.to_s
 		end
 	end
-
+	
+	def first_guess
+		[:red, :red, :orange, :orange]
+	end
+	
+	
 end
