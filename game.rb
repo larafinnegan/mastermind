@@ -2,9 +2,18 @@ require '.\board'
 require '.\ai'
 
 class Game
-	attr_accessor :board, :ai
 
-	@@guesses = 0
+			@@colors = {red: "1",
+				orange: "2",
+				yellow: "3",
+				green: "4",
+				blue: "5",
+				purple: "6",
+				white: "8",
+				black: "9"
+				}
+				
+	attr_accessor :board, :ai
 
 	def initialize(board, ai)
 		@board = board
@@ -29,6 +38,7 @@ class Game
 			puts "Invalid input.  Please enter 4 numbers between 1 and 6:"
 			guess = gets.chomp.split("")
 		end 
+		map_to_color(guess)
 		guess
 	end	
 
@@ -39,32 +49,31 @@ class Game
 			puts "Invalid input.  Please enter only combinations of 8 and/or 9:"
 			feedback = gets.chomp.split("")
 		end 
+		map_to_color(feedback)
 		feedback
 	end
 
 	def get_code
 		puts "\nPlease enter a code: "
 		code = gets.chomp
-		while code.length != 4
+		while code.length != 4 || (code - ("1".."6").to_a != [])
 			puts "Please enter 4 numbers"
 			code = gets.chomp
 		end 
 		code.split("").map! {|x| x.to_i}
+		map_to_color(code)
 		code
 	end
 	
-	def increment_guesses
-		@@guesses += 1
+	def map_to_color(input)
+		input.map! {|x| @@colors.key(x)}
 	end
 	
 	def play
 		if choose_mode == "1"
-			board.populate(board.map_to_color(ai.create_code))
-			while @@guesses < 12 && !board.win?
-				board.populate(board.map_to_color(get_guess))
-				board.populate(board.feedback)
-				board.display
-				increment_guesses
+			board.populate_code(ai.create_code)
+			while !board.twelve_guesses? && !board.win?
+				board.player_guesses(get_guess)
 			end
 			if board.win?
 				puts "\nCongrats, you guessed the code!!" 
@@ -72,13 +81,12 @@ class Game
 				puts "\nYou lose!  The code is: #{board.map_to_color(board.display_code)}"
 			end
 		else
-			board.populate(get_code)
-			while @@guesses < 12 && !board.win?
+			board.populate_code(get_code)
+			while !board.win? && !board.twelve_guesses?
 				board.populate(ai.create_code)
 				puts "\nThe computer guessed: #{board.last_guess}\n"
 				board.populate(provide_feedback)
 				board.display
-				increment_guesses
 			end
 			if board.win?
 				puts "\nThe computer won!!" 
