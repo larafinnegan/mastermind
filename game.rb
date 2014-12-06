@@ -3,16 +3,6 @@ require '.\ai'
 
 class Game
 
-			@@colors = {red: "1",
-				orange: "2",
-				yellow: "3",
-				green: "4",
-				blue: "5",
-				purple: "6",
-				white: "8",
-				black: "9"
-				}
-				
 	attr_accessor :board, :ai
 
 	def initialize(board, ai)
@@ -38,7 +28,6 @@ class Game
 			puts "Invalid input.  Please enter 4 numbers between 1 and 6:"
 			guess = gets.chomp.split("")
 		end 
-		map_to_color(guess)
 		guess
 	end	
 
@@ -49,7 +38,6 @@ class Game
 			puts "Invalid input.  Please enter only combinations of 8 and/or 9:"
 			feedback = gets.chomp.split("")
 		end 
-		map_to_color(feedback)
 		feedback
 	end
 
@@ -61,17 +49,12 @@ class Game
 			code = gets.chomp
 		end 
 		code.split("").map! {|x| x.to_i}
-		map_to_color(code)
 		code
-	end
-	
-	def map_to_color(input)
-		input.map! {|x| @@colors.key(x)}
 	end
 	
 	def play
 		if choose_mode == "1"
-			board.populate_code(ai.create_code)
+			ai.create_code
 			while !board.twelve_guesses? && !board.win?
 				board.player_guesses(get_guess)
 			end
@@ -96,7 +79,8 @@ class Game
 		end
 	end
 end
-game = Game.new(board = Board.new, ai = AI.new)
+ai = AI.new
+game = Game.new(board, ai)
 game.play
 
 
