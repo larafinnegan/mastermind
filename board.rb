@@ -66,8 +66,8 @@ attr_accessor :array
 	public
 	def display
 	puts code
-		for i in (1...array[1].size)
-			puts "guess #{i}: #{array[1][i].join(" ")}  feedback: #{array[2][i].join(" ")}"
+		array[1][1..-1].each_with_index do |x, i|
+			puts "guess #{i+1}: #{x.join(" ")}  feedback: #{array[2][i+1].join(" ")}"
 		end
 	end
 	

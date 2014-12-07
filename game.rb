@@ -66,9 +66,9 @@ class Game
 		else
 			board.populate_code(get_code)
 			until board.win? || board.twelve_guesses?
-				board.populate(ai.create_code)
+				board.populate_guess(ai.create_code)
 				puts "\nThe computer guessed: #{board.last_guess}\n"
-				board.populate(provide_feedback)
+				board.populate_feedback(provide_feedback)
 				board.display
 			end
 			if board.win?
