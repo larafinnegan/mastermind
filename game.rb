@@ -14,7 +14,7 @@ class Game
 		puts "Do you want to guess the code or enter a code?"
 		puts "Enter 1 to guess the code, or 2 to enter the code."
 		mode = gets.chomp
-		while mode != "1" && mode != "2"
+		until mode == "1" || mode == "2"
 			puts "Sorry, please enter 1 or 2: "
 			mode = gets.chomp
 		end
@@ -24,7 +24,7 @@ class Game
 	def get_guess
 		puts "\nPlease enter a guess: "
 		guess = gets.chomp.split("")
-		while guess.length != 4 || (guess - ("1".."6").to_a != [])
+		until guess.length == 4 && (guess - ("1".."6").to_a == [])
 			puts "Invalid input.  Please enter 4 numbers between 1 and 6:"
 			guess = gets.chomp.split("")
 		end 
@@ -34,7 +34,7 @@ class Game
 	def provide_feedback
 		puts "Please enter feedback: "
 		feedback = gets.chomp.split("")
-		while (guess - ("8".."9").to_a != [])
+		until guess - ("8".."9").to_a == []
 			puts "Invalid input.  Please enter only combinations of 8 and/or 9:"
 			feedback = gets.chomp.split("")
 		end 
@@ -44,7 +44,7 @@ class Game
 	def get_code
 		puts "\nPlease enter a code: "
 		code = gets.chomp
-		while code.length != 4 || (code - ("1".."6").to_a != [])
+		until code.length == 4 && (code - ("1".."6").to_a == [])
 			puts "Please enter 4 numbers"
 			code = gets.chomp
 		end 
@@ -54,18 +54,18 @@ class Game
 	
 	def play
 		if choose_mode == "1"
-			ai.create_code
-			while !board.twelve_guesses? && !board.win?
+			ai.create_code(board)
+			until board.twelve_guesses? || board.win?
 				board.player_guesses(get_guess)
 			end
 			if board.win?
 				puts "\nCongrats, you guessed the code!!" 
 			else 
-				puts "\nYou lose!  The code is: #{board.map_to_color(board.display_code)}"
+				puts "\nYou lose!  The code is: #{board.code.join(" ")}"
 			end
 		else
 			board.populate_code(get_code)
-			while !board.win? && !board.twelve_guesses?
+			until board.win? || board.twelve_guesses?
 				board.populate(ai.create_code)
 				puts "\nThe computer guessed: #{board.last_guess}\n"
 				board.populate(provide_feedback)
@@ -79,8 +79,7 @@ class Game
 		end
 	end
 end
-ai = AI.new
-game = Game.new(board, ai)
+game = Game.new(board = Board.new, ai = AI.new)
 game.play
 
 
