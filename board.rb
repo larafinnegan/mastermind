@@ -4,22 +4,8 @@ class Board
 
 attr_accessor :array
 
-			@@colors = {Red: "1",
-				Orange: "2",
-				Yellow: "3",
-				Green: "4",
-				Blue: "5",
-				Purple: "6",
-				White: "8",
-				Black: "9"
-				}
-
 	def initialize(array = [[[]],[[]]])
 		@array = array
-	end
-	
-	def map_to_color(input)
-		input.map! {|x| @@colors.key(x)}
 	end
 	
 	def populate_code(input)
@@ -42,7 +28,6 @@ attr_accessor :array
 		array[1][-1]
 	end
 
-	private
 	def feedback
 		codecopy = Array.new(code)
 		frequency = []
@@ -58,21 +43,20 @@ attr_accessor :array
 				present += 1
 			end
 		end
-		same.times {frequency << :Black}
-		(present-same).times {frequency << :White}
+		same.times {frequency << "B"}
+		(present-same).times {frequency << "W"}
 		frequency
 	end
 	
 	public
 	def display
-	puts code
 		array[1][1..-1].each_with_index do |x, i|
 			puts "guess #{i+1}: #{x.join(" ")}  feedback: #{array[2][i+1].join(" ")}"
 		end
 	end
 	
 	def player_guesses(input)
-		populate_guess(map_to_color(input))
+		populate_guess(input)
 		populate_feedback(feedback)
 		display
 	end
@@ -82,6 +66,6 @@ attr_accessor :array
 	end
 
 	def win?
-		true if array[2][-1].all? { |x| x == :Black } && (array[2][-1].length == 4)
+		true if array[2][-1].all? { |x| x == "B" } && (array[2][-1].length == 4)
 	end
 end

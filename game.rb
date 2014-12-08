@@ -3,6 +3,9 @@ require '.\ai'
 
 class Game
 
+	@@colors = %w(R O Y G B P)
+	@@feedback = %w(B W)
+
 	attr_accessor :board, :ai
 
 	def initialize(board, ai)
@@ -23,32 +26,31 @@ class Game
 
 	def get_guess
 		puts "\nPlease enter a guess: "
-		guess = gets.chomp.split("")
-		until guess.length == 4 && (guess - ("1".."6").to_a == [])
-			puts "Invalid input.  Please enter 4 numbers between 1 and 6:"
-			guess = gets.chomp.split("")
+		guess = gets.chomp.upcase.split("")
+		until guess.length == 4 && @@colors.include?(guess)
+			puts "Invalid input.  Please enter 4 colors:"
+			guess = gets.chomp.upcase.split("")
 		end 
 		guess
 	end	
 
 	def provide_feedback
 		puts "Please enter feedback: "
-		feedback = gets.chomp.split("")
-		until guess - ("8".."9").to_a == []
+		feedback = gets.chomp.upcase.split("")
+		until feedback - @@feedback == []
 			puts "Invalid input.  Please enter only combinations of 8 and/or 9:"
-			feedback = gets.chomp.split("")
+			feedback = gets.chomp.upcase.split("")
 		end 
 		feedback
 	end
 
 	def get_code
 		puts "\nPlease enter a code: "
-		code = gets.chomp
-		until code.length == 4 && (code - ("1".."6").to_a == [])
-			puts "Please enter 4 numbers"
-			code = gets.chomp
-		end 
-		code.split("").map! {|x| x.to_i}
+		code = gets.chomp.upcase.split("")
+		until code.length == 4 && @@colors.include?(code)
+			puts "Invalid input.  Please enter 4 colors:"
+			code = gets.chomp.upcase.split("")
+		end
 		code
 	end
 	

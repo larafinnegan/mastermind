@@ -1,6 +1,9 @@
 require '.\board'
 
 class AI
+
+	@@colors = %w(R O Y G B P)
+	@@feedback = %w(B W)
 	
 	attr_accessor :ai
 
@@ -11,13 +14,13 @@ class AI
 	def create_code(board)
 		code = Array.new(4)
 		code.map! do |x| 
-			x = rand(6) + 1
-			x.to_s
+			x = rand(6)
+			x = @@colors[x].to_s
 		end
-		board.populate_code(board.map_to_color(code))
+		board.populate_code(code)
 	end
 	
 	def first_guess
-		[:Red, :Red, :Orange, :Orange]
+		["R","R","O","O"]
 	end
 end
